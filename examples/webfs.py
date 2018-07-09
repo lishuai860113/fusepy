@@ -3,6 +3,8 @@ from __future__ import print_function, absolute_import, division
 
 import logging
 
+import requests
+
 from errno import ENOENT
 
 from fuse import FUSE, FuseOSError, Operations, LoggingMixIn
@@ -17,10 +19,7 @@ class webfs(LoggingMixIn, Operations):
         self.url = url
 
     def getattr(self, path):
-        try:
-            st = self.sftp.lstat(path)
-        except IOError:
-            raise FuseOSError(ENOENT)
+        return {"st_mode": 10444}
 
         return dict((key, getattr(st, key)) for key in (
             'st_atime', 'st_gid', 'st_mode', 'st_mtime', 'st_size', 'st_uid'))
