@@ -60,7 +60,7 @@ class webfs(LoggingMixIn, Operations):
 
     def getweb(self, path, size=None, offset=None):
         if size != None:
-            headers = {"Range": "bytes=%d-%d" % (offset, offset + size)}
+            headers = {"Range": "bytes=%d-%d" % (offset, offset + size - 1)}
         else:
             headers = {}
         r = requests.get(self.url + path, headers=headers)
